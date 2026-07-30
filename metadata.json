@@ -1,0 +1,8 @@
+{
+  "name": "SADA-E-THAL (Media Network)",
+  "description": "A minimalist, clean, and content-focused personal blog and media platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
