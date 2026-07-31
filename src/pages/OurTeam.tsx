@@ -33,6 +33,11 @@ export default function OurTeam() {
               <div className="p-6 text-center border-t-4 border-red-700 relative">
                 <h3 className="text-2xl font-bold text-neutral-900 mb-2">{member.name}</h3>
                 <p className="text-red-700 font-bold text-sm uppercase tracking-wider">{member.role}</p>
+                {member.title && (
+                  <p className="text-neutral-500 text-sm font-medium mt-2 pt-2 border-t border-neutral-100">
+                    {member.title}
+                  </p>
+                )}
               </div>
             </div>
           ))}
