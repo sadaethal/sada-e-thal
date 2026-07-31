@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { getBlogBySlug } from '../utils/blogs';
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 export default function BlogPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -25,18 +25,24 @@ export default function BlogPage() {
     day: 'numeric'
   });
 
+  const categoryLabel = blog.category === 'opinion'
+    ? 'Opinion / Editorial'
+    : blog.category === 'news'
+      ? 'News'
+      : 'Blog';
+
   return (
     <div className="bg-white min-h-screen pb-16">
       {/* Hero Image */}
       <div className="w-full h-[40vh] md:h-[60vh] relative bg-neutral-900">
-        <img 
-          src={blog.image} 
-          alt={blog.title} 
+        <img
+          src={blog.image}
+          alt={blog.title}
           className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 max-w-4xl mx-auto">
-          <div className="text-red-500 text-sm font-bold uppercase tracking-wider mb-4">Blog</div>
+          <div className="text-red-500 text-sm font-bold uppercase tracking-wider mb-4">{categoryLabel}</div>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">{blog.title}</h1>
           <p className="text-neutral-300 text-sm font-medium">{formattedDate}</p>
         </div>
@@ -55,7 +61,23 @@ export default function BlogPage() {
         ">
           <ReactMarkdown>{blog.body}</ReactMarkdown>
         </div>
-        
+
+        {/* External Link Button */}
+        {blog.external_link && (
+          <div className="mt-12 pt-8 border-t border-neutral-200">
+            <p className="text-sm text-neutral-500 mb-4 font-medium uppercase tracking-wider">External Resource</p>
+            <a
+              href={blog.external_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white font-bold px-8 py-4 text-base transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group"
+            >
+              <ExternalLink size={20} className="transition-transform group-hover:rotate-12" />
+              View Original / Watch / Open Link
+            </a>
+          </div>
+        )}
+
         <div className="mt-16 pt-8 border-t border-neutral-200">
           <Link to="/" className="inline-flex items-center text-neutral-600 hover:text-red-700 transition-colors font-semibold">
             <ArrowLeft size={20} className="mr-2" /> Back to Home

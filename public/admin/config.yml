@@ -16,7 +16,20 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Featured Image", name: "image", widget: "image"}
       - {label: "Excerpt", name: "excerpt", widget: "text"}
-      - { label: "Link", name: "link", widget: "string", required: false }
       - {label: "Slug", name: "slug", widget: "string"}
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - {label: "Blog", value: "blog"}
+          - {label: "Opinion / Editorial", value: "opinion"}
+          - {label: "News", value: "news"}
+        default: "blog"
+        required: false
+      - label: "External Link"
+        name: "external_link"
+        widget: "string"
+        required: false
+        hint: "Optional: Add a YouTube, Facebook, or any external URL. A button will appear on the blog page."
       - {label: "Body", name: "body", widget: "markdown"}
-      
+

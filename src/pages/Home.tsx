@@ -1,13 +1,26 @@
 import { ArrowRight } from 'lucide-react';
-import { mockEditorials, teamMembers } from '../data/mockData';
+import { teamMembers } from '../data/mockData';
 import { Link } from 'react-router-dom';
 import { getAllBlogs } from '../utils/blogs';
 
 export default function Home() {
   const blogs = getAllBlogs();
   const hasBlogs = blogs.length > 0;
-  const featuredBlog = hasBlogs ? blogs[0] : null;
-  const gridBlogs = hasBlogs ? blogs.slice(1) : [];
+
+  // Separate regular blog posts from opinion posts
+  const regularBlogs = blogs.filter(
+    (b) => b.category !== 'opinion'
+  );
+  const opinionBlogs = blogs.filter(
+    (b) => b.category === 'opinion'
+  );
+
+  const featuredBlog = regularBlogs.length > 0 ? regularBlogs[0] : (hasBlogs ? blogs[0] : null);
+  const gridBlogs = regularBlogs.length > 1
+    ? regularBlogs.slice(1)
+    : regularBlogs.length === 0 && blogs.length > 1
+      ? blogs.slice(1)
+      : [];
 
   return (
     <div className="bg-neutral-50 min-h-screen">
@@ -52,54 +65,56 @@ export default function Home() {
           </section>
 
           {/* Blog Grid Section */}
-          <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-end mb-12 border-b border-neutral-200 pb-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 relative">
-                Latest Content
-                <span className="absolute -bottom-[17px] left-0 w-1/3 h-1 bg-red-700"></span>
-              </h2>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {gridBlogs.map((blog) => {
-                const formattedDate = new Date(blog.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric'
-                });
+          {gridBlogs.length > 0 && (
+            <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-end mb-12 border-b border-neutral-200 pb-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 relative">
+                  Latest Content
+                  <span className="absolute -bottom-[17px] left-0 w-1/3 h-1 bg-red-700"></span>
+                </h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {gridBlogs.map((blog) => {
+                  const formattedDate = new Date(blog.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  });
 
-                return (
-                <Link 
-                  key={blog.slug} 
-                  to={`/blog/${blog.slug}`}
-                  className="group flex flex-col bg-white border border-neutral-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
-                >
-                  <div className="w-full h-56 md:h-64 overflow-hidden relative">
-                    <img 
-                      src={blog.image} 
-                      alt={blog.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute top-4 left-4 bg-red-700 text-white text-xs font-bold px-3 py-1 uppercase tracking-wider">
-                      Blog
+                  return (
+                  <Link 
+                    key={blog.slug} 
+                    to={`/blog/${blog.slug}`}
+                    className="group flex flex-col bg-white border border-neutral-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
+                  >
+                    <div className="w-full h-56 md:h-64 overflow-hidden relative">
+                      <img 
+                        src={blog.image} 
+                        alt={blog.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute top-4 left-4 bg-red-700 text-white text-xs font-bold px-3 py-1 uppercase tracking-wider">
+                        {blog.category === 'news' ? 'News' : 'Blog'}
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <span className="text-xs text-neutral-500 mb-3">{formattedDate}</span>
-                    <h3 className="text-xl font-bold text-neutral-900 mb-4 leading-tight group-hover:text-red-700 transition-colors">
-                      {blog.title}
-                    </h3>
-                    <p className="text-neutral-600 text-sm mb-6 flex-grow">
-                      {blog.excerpt}
-                    </p>
-                    <span className="text-red-700 text-sm font-semibold inline-flex items-center group-hover:text-neutral-900 transition-colors mt-auto">
-                      Read full post <ArrowRight size={14} className="ml-1" />
-                    </span>
-                  </div>
-                </Link>
-              )})}
-            </div>
-          </section>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <span className="text-xs text-neutral-500 mb-3">{formattedDate}</span>
+                      <h3 className="text-xl font-bold text-neutral-900 mb-4 leading-tight group-hover:text-red-700 transition-colors">
+                        {blog.title}
+                      </h3>
+                      <p className="text-neutral-600 text-sm mb-6 flex-grow">
+                        {blog.excerpt}
+                      </p>
+                      <span className="text-red-700 text-sm font-semibold inline-flex items-center group-hover:text-neutral-900 transition-colors mt-auto">
+                        Read full post <ArrowRight size={14} className="ml-1" />
+                      </span>
+                    </div>
+                  </Link>
+                )})}
+              </div>
+            </section>
+          )}
         </>
       ) : (
         /* Fallback if no blogs */
@@ -141,7 +156,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12 border-b border-neutral-700 pb-4">
             <h2 className="text-2xl md:text-3xl font-bold relative">
-              Editorials & Opinions
+              Editorials &amp; Opinions
               <span className="absolute -bottom-[17px] left-0 w-1/3 h-1 bg-red-600"></span>
             </h2>
             <Link to="/opinion" className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold flex items-center">
@@ -149,40 +164,47 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {mockEditorials.map((editorial) => (
-              <a 
-                key={editorial.id} 
-                href={editorial.externalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col sm:flex-row bg-neutral-800 border border-neutral-700 hover:border-red-600 transition-colors overflow-hidden"
-              >
-                <div className="w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden">
-                  <img 
-                    src={editorial.imageUrl} 
-                    alt={editorial.title}
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"
-                  />
-                </div>
-                <div className="w-full sm:w-3/5 p-6 flex flex-col justify-center">
-                  <div className="text-red-500 text-xs font-bold uppercase tracking-wider mb-2">
-                    Opinion
+          {opinionBlogs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              {opinionBlogs.slice(0, 2).map((post) => (
+                <Link 
+                  key={post.slug} 
+                  to={`/blog/${post.slug}`}
+                  className="group flex flex-col sm:flex-row bg-neutral-800 border border-neutral-700 hover:border-red-600 transition-colors overflow-hidden"
+                >
+                  <div className="w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden">
+                    <img 
+                      src={post.image} 
+                      alt={post.title}
+                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"
+                    />
                   </div>
-                  <h3 className="text-xl font-bold mb-3 leading-snug group-hover:text-red-400 transition-colors">
-                    {editorial.title}
-                  </h3>
-                  <p className="text-neutral-400 text-sm mb-4 line-clamp-3">
-                    {editorial.excerpt}
-                  </p>
-                  <div className="mt-auto flex items-center justify-between text-xs text-neutral-500">
-                    <span className="font-semibold">{editorial.author}</span>
-                    <span>{editorial.date}</span>
+                  <div className="w-full sm:w-3/5 p-6 flex flex-col justify-center">
+                    <div className="text-red-500 text-xs font-bold uppercase tracking-wider mb-2">
+                      Opinion
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 leading-snug group-hover:text-red-400 transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-neutral-400 text-sm mb-4 line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                    <div className="mt-auto flex items-center justify-between text-xs text-neutral-500">
+                      <span className="font-semibold text-neutral-400 flex items-center gap-1">
+                        Read Article <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                      </span>
+                      <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    </div>
                   </div>
-                </div>
-              </a>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 border border-neutral-700 rounded">
+              <p className="text-neutral-400 text-lg">No opinion posts published yet.</p>
+              <p className="text-neutral-500 text-sm mt-2">Publish posts with the "Opinion / Editorial" category in the CMS to show them here.</p>
+            </div>
+          )}
         </div>
       </section>
     </div>

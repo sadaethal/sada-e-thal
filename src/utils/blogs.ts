@@ -7,6 +7,8 @@ export interface BlogPost {
   excerpt: string;
   slug: string;
   body: string;
+  external_link?: string;
+  category?: string;
 }
 
 export function getAllBlogs(): BlogPost[] {
