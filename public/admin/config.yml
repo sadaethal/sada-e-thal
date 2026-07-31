@@ -16,5 +16,7 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Featured Image", name: "image", widget: "image"}
       - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - { label: "Link", name: "link", widget: "string", required: false }
       - {label: "Slug", name: "slug", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
+      
