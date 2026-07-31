@@ -10,7 +10,7 @@ export default function Header() {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   
   const isActive = (path: string) => {
-    return location.pathname === path;
+    return location.pathname === path || location.pathname.startsWith(path + '/');
   };
 
   const navLinkClasses = (path: string) => 
@@ -64,6 +64,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className={navLinkClasses('/')}>Home</Link>
             <Link to="/opinion" className={navLinkClasses('/opinion')}>Opinion</Link>
+            <Link to="/team" className={navLinkClasses('/team')}>Our Team</Link>
             
             {/* About Dropdown */}
             <div 
@@ -82,7 +83,7 @@ export default function Header() {
                   About Us
                 </Link>
                 <Link to="/our-team" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-red-700 transition-colors">
-                  Our Team
+                  Core Cabinet
                 </Link>
               </div>
             </div>
@@ -107,7 +108,7 @@ export default function Header() {
           <div className="px-4 pt-2 pb-6 space-y-1">
             <Link 
               to="/" 
-              className={`block px-3 py-3 rounded-md text-base font-semibold uppercase ${isActive('/') ? 'text-red-700 bg-red-50' : 'text-neutral-900 hover:bg-neutral-50'}`}
+              className={`block px-3 py-3 rounded-md text-base font-semibold uppercase ${isActive('/') && location.pathname === '/' ? 'text-red-700 bg-red-50' : 'text-neutral-900 hover:bg-neutral-50'}`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Home
@@ -118,6 +119,13 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Opinion
+            </Link>
+            <Link 
+              to="/team" 
+              className={`block px-3 py-3 rounded-md text-base font-semibold uppercase ${isActive('/team') ? 'text-red-700 bg-red-50' : 'text-neutral-900 hover:bg-neutral-50'}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Our Team
             </Link>
             
             <div className="px-3 py-3 text-base font-semibold uppercase text-neutral-900 border-b border-neutral-100">
@@ -135,7 +143,7 @@ export default function Header() {
               className={`block pl-6 pr-3 py-2 text-sm font-medium ${isActive('/our-team') ? 'text-red-700' : 'text-neutral-600 hover:text-red-700'}`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Our Team
+              Core Cabinet
             </Link>
           </div>
         </div>

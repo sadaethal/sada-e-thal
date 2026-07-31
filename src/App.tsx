@@ -5,6 +5,8 @@ import OurTeam from './pages/OurTeam';
 import AboutUs from './pages/AboutUs';
 import Opinion from './pages/Opinion';
 import BlogPage from './pages/BlogPage';
+import TeamPage from './pages/TeamPage';
+import TeamMemberPage from './pages/TeamMemberPage';
 
 export default function App() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
           <Route path="opinion" element={<Opinion />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="our-team" element={<OurTeam />} />
+          <Route path="team" element={<TeamPage />} />
+          <Route path="team/:slug" element={<TeamMemberPage />} />
           <Route path="blog/:slug" element={<BlogPage />} />
         </Route>
       </Routes>

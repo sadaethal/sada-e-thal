@@ -33,3 +33,25 @@ collections:
         hint: "Optional: Add a YouTube, Facebook, or any external URL. A button will appear on the blog page."
       - {label: "Body", name: "body", widget: "markdown"}
 
+  - name: "team"
+    label: "Our Team"
+    folder: "content/team"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Designation", name: "designation", widget: "string"}
+      - label: "Registration Number"
+        name: "registration_number"
+        widget: "string"
+        hint: "Format: stmn001, stmn002, stmn003..."
+        pattern: ["^stmn\\d+$", "Must be in format stmn001, stmn002, etc."]
+        required: true
+      - {label: "CNIC", name: "cnic", widget: "string", required: false, hint: "e.g. 12345-6789012-3"}
+      - {label: "Phone", name: "phone", widget: "string", required: false}
+      - {label: "Location", name: "location", widget: "string", required: false}
+      - {label: "Profile Image", name: "image", widget: "image", required: false}
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "URL-friendly identifier, auto-fill from name (lowercase, hyphens). e.g. john-doe"

@@ -7,7 +7,7 @@ export default function OurTeam() {
         
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6 uppercase tracking-tight">Our Team</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6 uppercase tracking-tight">Core Cabinet</h1>
           <div className="w-24 h-1 bg-red-700 mx-auto mb-6"></div>
           <p className="text-lg text-neutral-600">
             Meet the dedicated professionals behind SADA-E-THAL® (Media Network), working tirelessly to bring you authentic stories and independent perspectives.
@@ -31,7 +31,6 @@ export default function OurTeam() {
                 />
               </div>
               <div className="p-6 text-center border-t-4 border-red-700 relative">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-white rotate-45 border-t border-l border-transparent hidden"></div>
                 <h3 className="text-2xl font-bold text-neutral-900 mb-2">{member.name}</h3>
                 <p className="text-red-700 font-bold text-sm uppercase tracking-wider">{member.role}</p>
               </div>
